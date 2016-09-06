@@ -1,20 +1,20 @@
 import json
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.core.urlresolvers import reverse
-from django.db.models import Q
-from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseNotFound
-from django.views.generic import View, TemplateView
-from django.template import loader
-from django.db.models import Count
-from resources.models import Resource, NotificationQueue
-from comments.forms import CommentForm
-from resources.forms import ResourceForm
-from votes.models import Vote
+
 from account.emails import SendGrid
 from codango.settings.base import CODANGO_EMAIL
+from comments.forms import CommentForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.db.models import Count, Q
+from django.http import HttpResponse, HttpResponseNotFound
+from django.template import loader
+from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView, View
+from resources.forms import ResourceForm
+from resources.models import NotificationQueue, Resource
 from userprofile.models import Notification
+from votes.models import Vote
 
 
 class LoginRequiredMixin(object):
@@ -128,7 +128,7 @@ class CommunityView(CommunityBaseView):
                 "read": False,
                 "user_id": [follow.follower.id for follow in user_follow_objs],
                 "status": "Successfully Posted Your Resource"
-                    if not edit else 'Resource Successfully Updated'
+                if not edit else 'Resource Successfully Updated'
             }
             response_json = json.dumps(response_dict)
             return HttpResponse(response_json, content_type="application/json")
