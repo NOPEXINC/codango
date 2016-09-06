@@ -57,7 +57,8 @@ class Community(TimeStampMixin):
     creator = models.ForeignKey(User, related_name='communities')
     tags = models.ManyToManyField(Tag)
     default_group_permissions = MultiSelectField(
-        choices=group_permissions, default='Block members')
+        choices=group_permissions, default='Block members',
+        verbose_name='Default Members permission')
 
     def get_no_of_members(self):
         return len(self.members.all())
