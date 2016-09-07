@@ -39,7 +39,7 @@ class Contact extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.sendMessage(this.state.name, this.state.email, this.state.subject, this.state.message)
+    this.sendMessage(this.state.name, this.state.email, this.state.subject, this.state.message);
   }
 
   clearTextFields() {
@@ -55,13 +55,13 @@ class Contact extends Component {
   sendMessage(name, email, subject, message) {
     request.post('/api/v1/contact/').type('form').send({'name': name, 'email': email, 'subject': subject, 'message': message}).end((err, result) => {
       if (err) {
-        return this.displayFlashMessage("An error occured. Ensure you supply a valid email", "danger")
+        return this.displayFlashMessage("An error occured. Ensure you supply a valid email", "danger");
       } else {
         if (result.status === 201) {
-          this.clearTextFields()
-          return this.displayFlashMessage("Your message has been successfully sent", "success")
+          this.clearTextFields();
+          return this.displayFlashMessage("Your message has been successfully sent", "success");
         }
-        return this.displayFlashMessage("Message not sent", "danger")
+        return this.displayFlashMessage("Message not sent", "danger");
       }
     });
   }
@@ -87,6 +87,7 @@ class Contact extends Component {
                 placeholder="Name"
                 name="name"
                 required={true}
+                value={this.state.name}
                 onChange={this.handleFieldChange} />
             </Col>
             <Col md={6}>
@@ -95,6 +96,7 @@ class Contact extends Component {
                 placeholder="Email"
                 name="email"
                 required={true}
+                value={this.state.email}
                 onChange={this.handleFieldChange} />
             </Col>
             <Col md={12}>
@@ -102,6 +104,7 @@ class Contact extends Component {
                 type="text"
                 placeholder="Subject"
                 name="subject"
+                value={this.state.subject}
                 onChange={this.handleFieldChange} />
             </Col>
             <Col md={12}>
@@ -110,6 +113,7 @@ class Contact extends Component {
                 required={true}
                 placeholder="Message"
                 name="message"
+                value={this.state.message}
                 onChange={this.handleFieldChange} />
             </Col>
             <Col mdOffset={4} md={4}>
