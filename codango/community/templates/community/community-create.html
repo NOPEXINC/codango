@@ -1,0 +1,30 @@
+{% extends "account/layout/base.html" %}
+
+{% load cloudinary %}
+{% load staticfiles %}
+{% cloudinary_includes %}
+
+{% block title %}Create A Community{% endblock title %}
+
+{% block sidebar %}
+
+<div class="col-sm-3 hidden-sm hidden-xs">
+    <div class="content-block">
+    {% include "account/partials/community-menu.html" %}
+    </div>
+    <div class="popular-block">
+    {% include "account/partials/popular.html" %}
+    </div>
+</div>
+{% endblock sidebar %}
+
+{% block mobile-sidebar %}
+<button type="button" class="visible-sm visible-xs" id="sidebar-mobile-link"> <i class="glyphicon glyphicon-chevron-right"></i></button>
+<div class="visible-sm visible-xs" id="sidebar-mobile">
+    {% include "account/partials/community-menu.html" %}
+</div>
+{% endblock mobile-sidebar %}
+
+{% block content %}
+{% include "community/partials/community_form.html" %}
+{% endblock content %}

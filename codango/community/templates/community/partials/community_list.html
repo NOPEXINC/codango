@@ -1,0 +1,30 @@
+{% load bootstrap %}
+{% load cloudinary %}
+{% block container %}
+<div class="content-block">
+<h1>Codango Communities</h1>
+<hr>
+      {% for community in communities %}
+          <div class="row">
+          <div class="col-sm-12">
+          <div class="community-logo col-sm-3">
+            {% if community.logo %}
+                {% cloudinary community.logo width=70 height=70 crop="fill" %}
+            {% else %}
+                {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
+            {% endif %}
+          </div>
+          <div class="community-name col-sm-9">
+            <h3><strong>{{ community.name }}</strong></h3>
+            <br/>
+            {{community.description}}
+          </div>
+        </div>
+      </div>
+      <hr>
+      {% empty %}
+          No communities yet.
+      {% endfor %}
+
+</div>
+{% endblock %}
