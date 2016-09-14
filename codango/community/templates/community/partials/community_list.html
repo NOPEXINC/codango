@@ -16,6 +16,12 @@
           </div>
           <div class="community-name col-sm-9">
             <h3><strong>{{ community.name }}</strong></h3>
+
+           <form action="{% url 'join_community' community_id=community.pk %}" method="post">
+                  {% csrf_token %}
+                  <input type="submit" value="Join community">
+              </form>
+          </div>
             <br/>
             {{community.description}}
           </div>

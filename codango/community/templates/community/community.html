@@ -1,1 +1,39 @@
-Welcome. Your community has been successfully created.
+{% extends "account/layout/base.html" %}
+{% load cloudinary %}
+{% load staticfiles %}
+{% cloudinary_includes %}
+
+
+{% block title %} Join community{% endblock title %} {% block sidebar %}
+<div class="col-sm-3 hidden-sm hidden-xs">
+    <div class="content-block">
+        {% include "account/partials/community-menu.html" %}
+    </div>
+    <div class="popular-block">
+        {% include "account/partials/popular.html" %}
+    </div>
+</div>
+{% endblock sidebar %}
+
+{% block mobile-sidebar %}
+ <button type="button" class="visible-sm visible-xs" id="sidebar-mobile-link"> <i class="glyphicon glyphicon-chevron-right"></i></button>
+ <div class="visible-sm visible-xs" id="sidebar-mobile">
+    {% include "account/partials/community-menu.html" %}
+ </div>
+ {% endblock mobile-sidebar %}
+
+{% block content %}
+<div class="content-block">
+<h1>Welcome. Your community has been successfully created. </h1>
+
+{% if context.private == False %}
+ <form action="{% url 'join_community' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Join community">
+        <input type="hidden" value=" {{ context.creator }}">
+        <input type="hidden" value=" {{ context.name}}">
+    </form>
+</div>
+{% endif %}
+{% endblock content %}
+

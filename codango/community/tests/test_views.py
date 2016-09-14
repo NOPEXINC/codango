@@ -6,7 +6,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.test.utils import setup_test_environment
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from community.models import *
+from community.models import CommunityMember, Community
 from django.test.utils import setup_test_environment
 setup_test_environment()
 
@@ -35,26 +35,31 @@ class JoinCommunityTest(TestCase):
     def test_user_can_join_public_community(self):
         """Test user can join a public community"""
         self.assertTrue(self.login)
-        community = CommunityMember(community=self.public_community, user=self.user_to_join_community,
+        community = CommunityMember(community=self.public_community,
+                                    user=self.user_to_join_community,
                                     invitor=None, status="approved")
         community.save()
         assertTrue(community.get_no_of_members() == 1)
-        response = self.client.post(
-            '/join_community/', content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = self.client.post('/join_community/',
+                                    content_type='application/json',
+                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "success")
 
     def test_user_cant_join_private_community(self):
         """Test user cannot join a private community"""
         self.assertTrue(self.login)
-        community = CommunityMember(
-            community=self.private_community, user=self.user_to_join_community, invitor=None)
+        community = CommunityMember(community=self.private_community,
+                                    user=self.user_to_join_community,
+                                    invitor=None)
         community.save()
         assertTrue(community.get_no_of_members == 0)
-        response = self.client.post(
-            '/join_community/', content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = self.client.post('/join_community/',
+                                    content_type='application/json',
+                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 403)
         self.assertContains(response, "Authorization denied")
+
 
     def test_user_who_creates_a_community_automatically_becomes_a_member(self):
         """Test user who creates a community automatically becomes a member"""
@@ -114,3 +119,7 @@ class TestCreateCommuntity(StaticLiveServerTestCase):
         self.browser.find_element_by_id('community_submit').click()
         body = self.browser.find_element_by_tag_name('body')
         self.assertNotIn('Create A New Community', body.text)
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes

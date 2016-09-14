@@ -7,9 +7,12 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from resources.views import LoginRequiredMixin
-
 from .forms import CommunityForm
-from .models import Community
+from django.views.generic import View, TemplateView
+from django.contrib.auth.models import User
+from community.models import CommunityMember, Community
+from django.http import HttpResponse, HttpResponseNotFound
+# Create your views here.
 
 
 class CommunityCreateView(LoginRequiredMixin, TemplateView):
@@ -52,3 +55,22 @@ class CommunityListView(LoginRequiredMixin, TemplateView):
         context = super(CommunityListView, self).get_context_data(**kwargs)
         context['communities'] = Community.objects.all()
         return context
+
+
+
+class JoinCommunityView(View):
+
+    def post(self, request, *args, **kwargs):
+        community = Community.objects.get(pk=kwargs.get('community_id'))
+        creator = community.creator
+        print(community.private)
+        if self.request.user and not community.private:
+            new_member = CommunityMember(community=community,
+                                         user=self.request.user, invitor=creator,
+                                         status='approved')
+            new_member.save()
+            return redirect('/community/{}'.format(kwargs.get('community_id')))
+        else:
+            # if it's a private community send community admin a notification
+            if self.request.user and community.private:
+                return redirect('/community/')
